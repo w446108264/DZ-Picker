@@ -5,8 +5,10 @@ import android.content.Context;
 import com.bigkoo.pickerview.lib.WheelView;
 import com.bigkoo.pickerview.listener.OnItemSelectedListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import sj.library.picker.adapter.HourWheelAdapter;
 import sj.library.picker.adapter.MinuteWheelAdapter;
@@ -43,6 +45,10 @@ public class DHMTimePicker extends TimePickerWithHead {
     }
 
     public void setPicker(TimeBuilder timeBuilder) {
+        setPicker(timeBuilder, null);
+    }
+
+    public void setPicker(TimeBuilder timeBuilder, List<String> specialList) {
 
         this.timeBuilder = timeBuilder;
 
@@ -50,7 +56,11 @@ public class DHMTimePicker extends TimePickerWithHead {
 
         initOnItemSelectedListener();
 
-        wvDay.setAdapter(new MouthDayWheelAdapter(timeBuilder.startDate, timeBuilder.endData));
+        MouthDayWheelAdapter mouthDayWheelAdapter = new MouthDayWheelAdapter(timeBuilder.startDate, timeBuilder.endData);
+        wvDay.setAdapter(mouthDayWheelAdapter);
+        if(specialList != null) {
+            mouthDayWheelAdapter.addSpecialData(specialList);
+        }
         wvDay.setCurrentItem(1);
         wvDay.setCyclic(false);
         wvDay.setOnItemSelectedListener(dayWheelListener);
@@ -240,6 +250,20 @@ public class DHMTimePicker extends TimePickerWithHead {
 
     @Override
     public TimePicker setTimeBuilder(TimeBuilder builder) {
+        this.timeBuilder = builder;
+        setPicker(timeBuilder);
+        return this;
+    }
+
+    public TimePicker setTimeBuilder(TimeBuilder builder, String str) {
+        this.timeBuilder = builder;
+        List<String> specialList = new ArrayList<>();
+        specialList.add(str);
+        setPicker(timeBuilder, specialList);
+        return this;
+    }
+
+    public TimePicker setTimeBuilder(TimeBuilder builder, List<String> specialList) {
         this.timeBuilder = builder;
         setPicker(timeBuilder);
         return this;

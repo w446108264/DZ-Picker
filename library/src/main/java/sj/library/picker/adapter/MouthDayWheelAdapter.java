@@ -31,7 +31,16 @@ public class MouthDayWheelAdapter implements WheelAdapter {
     public MouthDayWheelAdapter(Date startDate, Date endData) {
         this.startDate = startDate;
         dateList = TimeUtils.getDaysListBetweenDates(startDate, endData);
-        specialList.add("立即用车");
+    }
+
+    public void addSpecialData(String data) {
+        specialList.add(data);
+    }
+
+    public void addSpecialData(List<String> list) {
+        if(list != null) {
+            specialList.addAll(list);
+        }
     }
 
     @Override
@@ -53,7 +62,7 @@ public class MouthDayWheelAdapter implements WheelAdapter {
 
     /**
      * 是否为特殊数据
-     * 特殊数据 -> 可以执行清空其他联动器数据 {@link DHMTimePicker#initOnItemSelectedListener()}
+     * 特殊数据 -> 可以执行清空其他联动器数据 {@link sj.library.picker.DHMTimePicker#initOnItemSelectedListener()}
      * @return
      */
     public boolean isSpecialData(int index) {
